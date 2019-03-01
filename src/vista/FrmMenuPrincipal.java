@@ -909,7 +909,7 @@ public class FrmMenuPrincipal extends JFrame {
 				lblUser2.setBounds(800, 6, 50, 42);
 				jpanelHeader.add(lblUser2);
 				
-				lblBienvenido = new JLabel("Hola Mascota");
+				lblBienvenido = new JLabel("dede");
 				lblBienvenido.setFont(new Font("Monospaced", Font.PLAIN, 22));
 				lblBienvenido.setForeground(Color.WHITE);
 				lblBienvenido.setBackground(Color.WHITE);
