@@ -1,0 +1,362 @@
+
+drop database if exists bd_Playnow;
+create database bd_playNow;
+use bd_Playnow;
+
+
+
+CREATE TABLE categoria(
+	id_cat int auto_increment NOT NULL primary key,
+	nomb_cat varchar(25) NOT NULL
+
+);
+
+
+CREATE TABLE cliente(
+	id_cli int auto_increment NOT NULL primary key,
+	nomb_cli varchar(25) NOT NULL,
+	ape_cli varchar(25) NOT NULL,
+	dni_cli char(8) NOT NULL,
+	telf_cli char(7)  NOT NULL,
+    direc_cli varchar(50) not null
+);
+
+CREATE TABLE proveedor(
+	id_prov int auto_increment NOT NULL primary key,
+	nom_prov varchar(25) NOT NULL,
+	ruc_prov char(11) NOT NULL,
+	direc_prov varchar(50) NOT NULL,
+	telf_prov char(7) not NULL,
+	cell_prov CHAR(9) NOT NULL,
+	email_prov varchar(25) NOT NULL,
+	estado_prov varchar(25)not null,	
+	Nro_cuenta_prov char(20)  NOT NULL
+    );
+   
+
+create TABLE compra(
+	Nro_comp int NOT NULL  auto_increment ,
+	documento_comp varchar(25) not NULL,
+	fech_comp date NOT NULL,
+    id_prov int  NOT NULL,
+    primary key(Nro_comp),
+    FOREIGN KEY fkf_prov (id_prov) REFERENCES proveedor(id_prov)
+	
+
+);
+
+
+
+CREATE TABLE Producto(
+	id_prod int auto_increment NOT NULL primary key,
+	nom_prod varchar(25) NOT NULL,
+	stock_prod smallint NOT NULL,
+    pre_prod decimal(6,2) not null,
+	id_Cat int NULL,
+	id_prov int  not NULL,
+    foreign key (id_cat) references categoria(id_cat),
+    foreign key (id_prov) references proveedor(id_prov)
+);
+
+
+
+CREATE TABLE detalle_compra(
+	nro_comp int  NOT NULL,
+	id_prod int  NOT NULL,
+	CantxUnidad smallint NOT NULL,
+	precioUnidad decimal(6,2) NOT NULL,
+    primary key(nro_comp,id_prod),
+    foreign key (id_prod) references producto(id_prod),
+    foreign key (nro_comp) references compra(nro_comp)
+);
+
+
+
+
+    
+create table tipo_empleado(
+    id_tip_emp char(1) not null primary key,
+    desc_emp varchar(25) not null
+    );
+    
+CREATE TABLE empleado(
+	id_emp int auto_increment NOT NULL primary key,
+	nom_emp varchar(25) NOT NULL,
+     ape_pat_emp varchar(25) NOT NULL,
+	ape_mat_emp varchar(25) NOT NULL,
+    sex_emp CHAR(2) NOT NULL,
+	email_emp varchar(25)NOT  NULL,
+	sueldo_emp decimal(6,2) NOT NULL,
+	estado_emp varchar(25) NOT NULL,
+	fech_nac date NOT NULL,
+	direc_emp varchar(25)NOT  NULL,
+	telf_emp CHAR(7)NOT  NULL,
+	cell_emp CHAR(9) NOT NULL,
+	dni_emp CHAR(8) NOT NULL,
+	login_emp VARCHAR(25)NOT  NULL,
+	psw_emp VARCHAR(25)NOT  NULL,
+    id_tip_emp char(1) not null,
+     foreign key (id_tip_emp) references tipo_empleado(id_tip_emp)
+
+);
+
+
+CREATE TABLE ventas(
+	Nro_ven int auto_increment NOT NULL primary key,
+	doc_ven varchar(25) not NULL,
+	fech_ven date not NULL,
+	id_cli int  NULL,
+	id_emp int  NULL,
+	foreign key (id_cli) references cliente(id_cli),
+	foreign key (id_emp) references empleado(id_emp)
+
+    );
+   
+
+CREATE TABLE Detalle_Venta(
+	Nro_ven int  NOT NULL,
+	id_prod int  NOT NULL,
+	CantxUnidad smallint NOT NULL,
+	precioUnidad decimal(6,2) NOT NULL,
+    primary key(Nro_ven,id_prod),
+	foreign key (id_prod) references producto(id_prod),
+    foreign key (Nro_ven) references ventas(Nro_ven)
+    );
+    
+    
+    -- insercion de clientes
+insert into cliente values(null,'jorge','rivera altura','85555214','8745236','jr namekusei 269');
+insert into cliente values(null,'miriam','diaz tunez','59652368','9563258','av pardo 365');
+insert into cliente values(null,'ana','galindo perez','55552258','3325247','jr los alamos');
+insert into cliente values(null,'rita','rodriguez pereira','11247852','1102012','planeta vegita');
+insert into cliente values(null,'pepe','miranda chavez','36589563','0025852','santiago de marcas');
+insert into cliente values(null,'mathias','chavez angel','45236857','1112050','tu huequito sandunguero');
+insert into cliente values(null,'nicolas','alegria amarga','25635874','1578523','esquina te la tia venenno');
+insert into cliente values(null,'piero','salado dulce','55639969','3256852','calle springfield');
+insert into cliente values(null,'ricardo','sol lluvia','25847563','2255875','calle venecas 69');
+
+
+-- insercion de tipo empleado
+insert into tipo_empleado values(1,'Administrador');
+insert into tipo_empleado values(2,'Vendedor');
+
+-- insercion de empleados
+insert into empleado values(null,'giancarlos','quilca','valenzuela','M','gquilcaval@gmail.com',3500,'ACTIVO','1997-03-22','jr. manuel amat 268','4898744','982278252','74311605','gquilcaval','2297','1');
+insert into empleado values(null,'goku','nameku',' sei','M','goku@gmail.com',3500,'ACTIVO','1997-03-22','jr. manuel amat 268','4898744','982278252','74311605','goku006','0000','2');
+
+
+-- INSERT PROVEEDOR
+
+insert into proveedor values (null, 'Lucia Games', '12345678945', 'Av.De la nada #892', '2517889', '987654321', 'luciagm@gmail.com', 'Activo', '45789654123664578512');
+insert into proveedor values (null, 'M-Electronics', '98765485213', 'Av.Diferente #608', '2521383', '973755465', 'Melectronicsgm@gmail.com', 'Activo', '45789654123664578512');
+
+insert into proveedor values (null, 'neft electornics', '98765485213', 'Av.inca garcilazo 268', '2521383', '973755465', 'nefectronicsgm@gmail.com', 'Activo', '45789654123664578682');
+
+-- INSERT CATEGORIA
+insert categoria values(null,'VideoJuegos');
+insert categoria values(null,'Consolas');
+insert categoria values(null,'PC Gamer');
+insert categoria values(null,'Laptops Gamer');
+insert categoria values(null,'Periféricos');
+
+
+-- INSERT PRODUCTOS
+
+insert into Producto values (null, 'PS4', 5, 50.5, 2, 2);
+insert into Producto values (null, 'X-Box', 8, 500, 2, 2);
+
+
+-- INSERT VENTAS
+
+insert ventas values(null,'Factura','2018/11/10',1,1);
+insert ventas values(null,'Factura','2018/10/10',1,1);
+insert ventas values(null,'Boleta','2018/05/09',1,1);
+
+
+
+    
+    -- PROCEDIMIENTO ALMACENADO PARA LISTAR EMPLEADO
+    delimiter $$ 
+create procedure sp_listarEmpleado()
+begin
+select id_emp,nom_emp,sueldo_emp,estado_emp,dni_emp,desc_emp from empleado e join tipo_empleado t on e.id_tip_emp =t.id_tip_emp;
+END
+$$ DELIMITER ;
+
+
+   -- procedimiento validar usuario
+   
+    delimiter $$
+    create procedure sp_Login(tipo char(1),login varchar(25),pas varchar(25))
+    begin
+    select*From empleado WHERE (id_tip_emp=tipo and login_emp=login) and psw_emp=pas ;
+    END
+    $$ DELIMITER ;
+    
+     delimiter $$
+    create procedure sp_Login_sinTIP(login varchar(25),pas varchar(25))
+    begin
+    select*From empleado WHERE  login_emp=login and psw_emp=pas ;
+    END
+    $$ DELIMITER ;
+    
+    -- precedimiento buscar cliente
+    delimiter $$
+    create procedure sp_BuscarCli(nom varchar(25))
+    begin
+    select*from cliente where  nomb_cli like concat(nom,'%');
+    end
+    $$ DELIMITER ;
+  
+   -- precedimiento buscar PRODUCTO
+	 delimiter $$
+    create procedure sp_BuscarPro(nom varchar(25))
+    begin
+    select*from producto where  nom_prod like concat(nom,'%');
+    end
+    $$ DELIMITER ;
+  
+   -- precedimiento buscar PROVEEDOR
+   delimiter $$
+    create procedure sp_BuscarProveedor(nom varchar(25))
+    begin
+    select*from proveedor where  nom_prov like concat(nom,'%');
+    end
+    $$ DELIMITER ;
+    
+    
+-- procedimiento buscar categoria
+  delimiter $$
+    create procedure sp_BuscarCat(descr varchar(25))
+    begin
+    select*from categoria where  nomb_cat like concat(descr,'%');
+    end
+    $$ DELIMITER ;
+
+
+-- procedimiento buscar empleado
+ delimiter $$
+    create procedure sp_BuscarEmp(descr varchar(25))
+    begin
+    select id_emp,nom_emp,sueldo_emp,estado_emp,dni_emp,desc_emp 
+    from empleado e join tipo_empleado t on e.id_tip_emp =t.id_tip_emp
+    where  nom_emp like concat(descr,'%');
+    end
+    $$ DELIMITER ;
+select*from empleado;
+
+call sp_BuscarEmp('go');
+
+
+-- procedimiento buscar CATEGORIA
+ delimiter $$
+    create procedure sp_Agregar(descr varchar(25))
+    begin
+    select*from categoria where  nomb_cat like concat(descr,'%');
+    end
+    $$ DELIMITER ;
+
+
+ -- PROCEDIMIENTO ALMACENADO Reporte por fecha
+	delimiter $$
+    create procedure sp_ReportexFecha(fecha date)
+    begin
+		select v.Nro_ven,
+			v.doc_ven,
+            v.fech_ven,
+            concat(c.nomb_cli," ",c.ape_cli) as 'Nombre Cliente',
+            concat(e.nom_emp," ",e.ape_pat_emp) as 'Nombre Empleado'
+		from empleado as e  inner join ventas as v
+		on v.id_emp=e.id_emp inner join cliente as c
+		on v.id_cli=c.id_cli
+		where fech_ven= fecha;
+    end
+    $$ DELIMITER ;
+    
+    call sp_ReportexFecha ('2018-11-10');
+    
+  
+ -- PROCEDIMIENTO ALMACENADO Reporte por EMPLEADO
+    delimiter $$
+    create procedure sp_ReportexEmpleado(nombre varchar(25))
+    begin
+		select v.Nro_ven,
+			v.doc_ven,
+            v.fech_ven,
+            concat(c.nomb_cli," ",c.ape_cli) as 'Nombre Cliente',
+            concat(e.nom_emp," ",e.ape_pat_emp) as 'Nombre Empleado'
+		from empleado as e  inner join ventas as v
+		on v.id_emp=e.id_emp inner join cliente as c
+		on v.id_cli=c.id_cli
+		where e.nom_emp = nombre;
+    end
+    $$ DELIMITER ;
+    
+    call sp_ReportexEmpleado ('giancarlos');
+
+
+
+
+
+ delimiter $$
+    create procedure sp_llenarCboCategoria(descr varchar(25))
+    begin
+    select* from categoria ;
+    end
+    $$ DELIMITER ;
+
+use bd_playnow;
+
+select *,count(*) 'cantidad'from cliente;
+select*from cliente;
+
+
+select sum(CantXUnidad * precioUnidad) 'cantidad'from detalle_compra;
+select*from compra;
+select*from detalle_compra;
+
+select sum(CantXUnidad * precioUnidad) 'cantidad'from detalle_venta;
+select*from detalle_venta;
+select*from ventas;
+/*Los updates*/
+
+update cliente 
+set nomb_cli='jorge',ape_cli='lopez',telf_cli='1234567',direc_cli='jr namekusei'
+where dni_cli='85555214';
+
+
+update producto 
+set nom_prod=?,stock_prod=?,pre_prod=?,id_cat=?,id_prov=?
+where id_prod=?;
+
+
+
+update categoria
+set nomb_cat='VideoJuegos'
+where id_cat='C01';
+
+select*from categoria;
+select*from empleado;
+select*from proveedor
+select*from cliente;
+
+delete from cliente 
+where dni_cli='85555214'
+SET FOREIGN_KEY_CHECKS=0
+
+SET FOREIGN_KEY_CHECKS=0;
+
+select*from tipo_documento;
+
+
+ update cliente set nomb_cli='d',ape_cli='d',telf_cli='4444444',direc_cli='fds',dni_cli='88888888' where id_cli=13
+delete from categoria
+where id_cat='c01'
+
+ update empleado 
+ set nom_emp='p',ape_pat_emp='p',ape_mat_emp='p',sex_emp='m',email_emp='p',sueldo_emp=55,estado_emp='activo',fech_nac='218/05/05',direc_emp='p',telf_emp='8888888',cell_emp='888888888',dni_emp='88888888',login_emp='p',psw_emp='p',id_tip_emp='2'
+ where id_emp=3
+ 
+ 
+ select*from ventas;
+select sum(CantXUnidad * precioUnidad) 'cantidad'from detalle_venta
