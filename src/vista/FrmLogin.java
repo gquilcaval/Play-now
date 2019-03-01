@@ -129,7 +129,7 @@ public class FrmLogin extends JFrame {
 		Jpanel_menu_login.add(Jpanel_Login);
 		Jpanel_Login.setLayout(null);
 
-		JLabel lblIniciarSesion = new JLabel("Iniciar Sesi\u00F3n");
+		JLabel lblIniciarSesion = new JLabel("loguin");
 		lblIniciarSesion.setBounds(56, 36, 212, 35);
 		lblIniciarSesion.setFont(new Font("Candara Light", Font.PLAIN, 34));
 		lblIniciarSesion.setForeground(Color.LIGHT_GRAY);
